@@ -3,7 +3,6 @@ import { TetrisBoard } from "../components/TetrisBoard";
 import { TetrisNextPiece } from "../components/TetrisNextPiece";
 import { TetrisInfo } from "../components/TetrisInfo";
 import { TetrisControls } from "../components/TetrisControls";
-import type { TetrominoType } from "../lib/domain/value-objects/tetromino";
 
 export default function TetrisRoute() {
   const game = useTetris();
@@ -56,7 +55,7 @@ export default function TetrisRoute() {
             gap: 16,
           }}
         >
-          <TetrisNextPiece nextType={game.nextType as TetrominoType} />
+          <TetrisNextPiece nextType={game.nextType} />
           <TetrisInfo
             score={game.score}
             lines={game.lines}

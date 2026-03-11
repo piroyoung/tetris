@@ -1,6 +1,7 @@
-import type { TetrisState } from "./state";
+import type { TetrisState, GamePhase } from "./state";
 import type { CellColor } from "../../../domain/entities/game-board";
 import { BOARD_ROWS, BOARD_COLS, dropIntervalMs } from "../../../domain/entities/game-board";
+import type { TetrominoType } from "../../../domain/value-objects/tetromino";
 
 export type DisplayCellColor = CellColor | "ghost";
 export type DisplayBoard = DisplayCellColor[][];
@@ -8,11 +9,11 @@ export type DisplayBoard = DisplayCellColor[][];
 export type TetrisViewModel = {
   displayBoard: DisplayBoard;
   ghostRow: number | null;
-  nextType: string;
+  nextType: TetrominoType;
   score: number;
   lines: number;
   level: number;
-  phase: string;
+  phase: GamePhase;
   isPlaying: boolean;
   isPaused: boolean;
   isGameOver: boolean;
