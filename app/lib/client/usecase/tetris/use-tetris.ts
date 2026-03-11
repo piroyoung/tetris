@@ -1,4 +1,4 @@
-import { useReducer, useEffect, useCallback, useRef } from "react";
+import { useReducer, useEffect, useCallback } from "react";
 import { createInitialState } from "./state";
 import { tetrisReducer } from "./reducer";
 import { selectViewModel } from "./selectors";
@@ -18,19 +18,15 @@ export type TetrisHandlers = {
 export function useTetris(): TetrisViewModel & TetrisHandlers {
   const [state, dispatch] = useReducer(tetrisReducer, undefined, createInitialState);
   const vm = selectViewModel(state);
-  const tickRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const dropIntervalRef = useRef(vm.dropInterval);
-  dropIntervalRef.current = vm.dropInterval;
 
+  // Restart the interval whenever isPlaying or dropInterval changes so the
+  // speed update takes effect immediately on each new level.
   useEffect(() => {
-    if (vm.isPlaying) {
-      tickRef.current = setInterval(() => {
-        dispatch({ type: "tick" });
-      }, dropIntervalRef.current);
-    }
-    return () => {
-      if (tickRef.current) clearInterval(tickRef.current);
-    };
+    if (!vm.isPlaying) return;
+    const id = setInterval(() => {
+      dispatch({ type: "tick" });
+    }, vm.dropInterval);
+    return () => clearInterval(id);
   }, [vm.isPlaying, vm.dropInterval]);
 
   useEffect(() => {
